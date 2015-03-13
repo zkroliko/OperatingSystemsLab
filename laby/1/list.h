@@ -7,10 +7,11 @@ typedef struct Data {
 	char* lastName;
 	char* birthDate;
 	char* address;
+	char* phone;
 } Data;
 
-Data* Data_new(char* fName, char* lName, char* bDate, char* address);
-void Data_del();
+Data* Data_new(char* fName, char* lName, char* bDate, char* address, char* phone);
+void Data_del(Data* data);
 
 typedef struct Node {
 	struct Node* next;
@@ -23,8 +24,11 @@ typedef struct List {
 	Node* last;
 } List;
 
-	void List_push(List*, Node*);
-	Node* List_pop(List*);
+	void List_push_front(List*, Data*);
+	void List_push_back(List*, Data*);
+
+	Data* List_pop_front(List*);
+	Data* List_pop_back(List*);
 
 	List* List_new();
-	void List_del();
+	void List_del(List* list);
