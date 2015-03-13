@@ -1,2 +1,2 @@
 # sysopy
-Tasks completed along with laboratories for operational systems
+Tasks completed for operational systems laboratories and research involved.
