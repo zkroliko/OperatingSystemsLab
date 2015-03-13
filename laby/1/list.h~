@@ -1,25 +1,30 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-struct Node {
+typedef struct Data {
+	char** firstName;
+	char** lastName;
+	char** birthDate;
+	char** address;
+} Data;
+
+Data* Data_new(char** fName, char** lName, char** bDate, char** address);
+void Data_del();
+
+typedef struct Node {
 	struct Node* next;
 	struct Node* prev;
-	struct Data* data;
-};
+	Data* data;
+} Node;
 
-struct Data {
-	char* fistName;
-	char* lastName;
-	char* birthDate;
-	char* adress;
-};
+typedef struct List {
+	Node* first;
+	Node* last;
+} List;
 
-struct List {
-	struct Node* first;
-	struct Node* last;
-};
+	void List_push(List*, Node*);
+	Node* List_pop(List*);
 
-	void List_push(struct List*, struct Node*);
-	struct Node* List_pop(struct List*);
-
-	struct List* List_create();
-	void List_delete();
+	List* List_new();
+	void List_del();
