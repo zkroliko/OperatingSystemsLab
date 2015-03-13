@@ -1,0 +1,11 @@
+cc = gcc
+cxx = g++
+cflags = -std=gnu99 -pedantic
+lflags = -Wall 
+objs = main.o list.o
+main: $(objs)
+	$(cxx) $(lflags) -o $@ $^
+$(objs): %.o: %.c
+	$(cxx) $(lflags)  -c -pedantic $<	
+clean:
+	rm -f *.o

@@ -1,0 +1,14 @@
+#include <getopt.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+
+// The name of this program.
+
+int main (int argc, char* argv[])
+{
+	printf("%s",getenv("USER"));
+	
+	return 0;
+}
