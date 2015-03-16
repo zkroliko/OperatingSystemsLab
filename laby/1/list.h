@@ -15,8 +15,10 @@ typedef struct Data {
 Data* Data_new(char* fName, char* lName, char* bDate, char* address, char* phone, char* email);
 // For copying to a new place in memory, old structure is left intact
 Data* Data_copy(Data* data);
-// For printing the constets
+// For printing the contents
 void Data_print(Data* data);
+// For comparing, we will use last name for that
+int Data_compare(Data* first, Data* second);
 // For detecting a string in the structure
 unsigned char Data_detect(Data* data, char* string);
 // For deallocating
@@ -43,6 +45,10 @@ typedef struct List {
 	unsigned int List_length(List* list);
 	// Find element containing a given string 
 	Data* List_find(List* list, char* string);
+	// For sorting, we will use insert sort in this implementation
+	void List_sort(List* list);
+	// For printing the whole list
+	void List_print(List* list);
 
 	List* List_new();
 	void List_del(List* list);

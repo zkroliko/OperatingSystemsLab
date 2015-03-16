@@ -47,11 +47,11 @@
 
 	// For wrting out a data structure
 	void Data_print(Data* data) {
-		printf("%s\n", data->firstName);
-		printf("%s\n", data->lastName);
-		printf("%s\n", data->birthDate);
-		printf("%s\n", data->address);
-		printf("%s\n", data->phone);
+		printf("%s ", data->firstName);
+		printf("%s ", data->lastName);
+		printf("%s ", data->birthDate);
+		printf("%s ", data->address);
+		printf("%s ", data->phone);
 		printf("%s\n", data->email);
 	}
 
@@ -69,6 +69,11 @@
 		}
 		return 0;
 		
+	}
+
+	// For comparing, we will use last name for that
+	int Data_compare(Data* first, Data* second) {
+		return strcmp(first->lastName,second->lastName);
 	}
 
 	// For removing a data structure from memory
@@ -201,10 +206,76 @@
 			temp = temp->next;
 		}
 		// In case we haven't found anything
-		if (temp->next = list->first) {
-			return NULL;		
+		if (temp->next == list->first) {
+			Data* none = Data_new("Unknown","Unknown","Unknown","Unknown","Unknown","Unknown");	
+			return none;	
 		}		
 		return temp->data;
+	}
+
+	// For sorting, we will use insert sort in this implementation
+	void List_sort(List* list) {
+		// If it contains 0 or 1 elements then it's already sorted
+		if (list->first == list->last || list->first == NULL) {
+			return;
+		}
+		Node temp;// This one is only temporary
+		Node* cur_element = list->first->next;
+		Node* consd_pos = cur_element->prev;
+		// Now let iterate throught every element finding a place for it
+		do {
+			while (Data_compare(cur_element->data, consd_pos->data) > 0 && (consd_pos != list->first)) {
+				fprintf(stderr, "Moving!");
+				consd_pos = consd_pos->prev;				
+			}
+			if (consd_pos == cur_element) {
+				cur_element = cur_element->next;
+				consd_pos = cur_element;
+				continue;	
+			}
+			fprintf(stderr, "Change!");
+			// Now let's insert it
+			// First let's check for some special situations
+			if (cur_element == list->last) {
+				list->last = list->last->prev;
+			}		
+			// We place any element in place of a first
+			if (consd_pos == list->first) {
+				list->first = cur_element;
+			}	
+			// The acctual exchange
+			// The temporary next and prev for the element being inserted
+			temp->prev = cur_element->prev;
+			temp->next = cur_element->next;
+			temp->next->prev = temp->prev;
+			temp->prev->next = temp->next;
+			// We dislocated this node
+			// Now let's place it BEFORE our considered position
+			// and fit the connections properly ---EC----- E is our element
+			cur_element->prev = consd_pos->prev;
+			cur_element->next = consd_pos;
+			cur_element->prev->next = cur_element;	
+			consd_pos->prev = cur_element;					
+			fprintf(stderr, "Bump! \n");
+			// Iterating to next element		
+			cur_element = temp->next;
+			consd_pos = cur_element->prev;
+		} while(cur_element != list->first);
+			fprintf(stderr, "Done");
+	}
+
+	// For printing the whole list
+	void List_print(List* list) {
+		// Checking whether the list contains any elements
+		if (list->first == NULL) {
+			return;
+		}
+		Node* temp = list->first;
+		do {
+			Data_print(temp->data);
+			temp = temp->next;
+		} while (temp != list->first);
+
 	}
 
 	// For removing a list, first all the element then the list itself
