@@ -38,6 +38,7 @@ typedef struct List {
 	Node* last;
 } List;
 
+	// Adds the element
 	void List_push_front(List*, Data*);
 	void List_push_back(List*, Data*);
 

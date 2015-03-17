@@ -294,6 +294,7 @@
 				temp = temp->next;
 				free(temp->prev);
 			}
+			// Let's not forget about  the last element
 			free(temp);
 		}
 		// Now let's delete the list itself

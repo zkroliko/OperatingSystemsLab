@@ -30,7 +30,7 @@ int main () {
 		List_push_back(list, data6);
 	}
 
-	printf("Sortujemy liste 6000 elementowa insert sortem.\n");
+	printf("Sortujemy liste 6000 elementowa sortowaniem przez wstawianie.\n");
 	List_sort(list);
 
 	printf("Wykonujemy 1000 wyszukiwan liniowych w liscie.\n");
