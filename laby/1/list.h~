@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+// Structure for holding contact data
 typedef struct Data {
 	char* firstName;
 	char* lastName;
@@ -24,12 +25,14 @@ unsigned char Data_detect(Data* data, char* string);
 // For deallocating
 void Data_del(Data* data);
 
+// Strcuture from which the list will be build
 typedef struct Node {
 	struct Node* next;
 	struct Node* prev;
 	Data* data;
 } Node;
 
+// The list strcuture
 typedef struct List {
 	Node* first;
 	Node* last;
@@ -48,7 +51,7 @@ typedef struct List {
 	// For sorting, we will use insert sort in this implementation
 	void List_sort(List* list);
 	// For printing the whole list
-	void 
+	void List_print(List* list);
 
 	List* List_new();
 	void List_del(List* list);

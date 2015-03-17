@@ -87,12 +87,23 @@
 	// For pushing a data element onto a list
 	void List_push_back(List* list, Data* data) {
 		Node* element = (Node*)malloc(sizeof(Node));
+		// Checking the allocation
+		if (element == NULL) {
+			fprintf(stderr, "Bad allocation. Element haven't been added to the list!\n");
+			return;					
+		}
 		element->data = Data_copy(data); // Copying data
+		// Checking the allocation once again this time for copied data
+		if (element->data == NULL) {
+			fprintf(stderr, "Bad allocation. Element haven't been added to the list!\n");
+			return;		
+		}
 		// Checking if the list isn't empty
 		if (list->first == NULL) {
 			list-> first = element;
 			list-> last = element;
-			return;		}
+			return;		
+		}
 		// If we just initialized a list then this will work properly
 		element->prev = list->last;
 		element->next = list->first;
@@ -124,7 +135,8 @@
 	Data* List_pop_front(List* list){
 		// Checking if the list isn't empty
 		if (list->first == NULL) {
-			return NULL; // The list is empty
+			fprintf(stderr, "Trying to remove an element from an empty list!\n");
+			return NULL; // The list is empty			
 		}
 		// Making a temporaty node
 		Node* temp = list->first;
@@ -151,6 +163,7 @@
 	Data* List_pop_back(List* list){
 		// Checking if the list isn't empty
 		if (list->first == NULL) {
+			fprintf(stderr, "Trying to remove an element from an empty list!\n");
 			return NULL; // The list is empty
 		}
 		// Making a temporaty node
@@ -224,16 +237,9 @@
 		Node* consd_pos = cur_element->prev;
 		// Now let iterate throught every element finding a place for it
 		do {
-			while (Data_compare(cur_element->data, consd_pos->data) > 0 && (consd_pos != list->first)) {
-				fprintf(stderr, "Moving!");
-				consd_pos = consd_pos->prev;				
+			while (Data_compare(cur_element->data, consd_pos->prev->data) < 0 && (consd_pos != list->first)) {
+				consd_pos = consd_pos->prev;								
 			}
-			if (consd_pos == cur_element) {
-				cur_element = cur_element->next;
-				consd_pos = cur_element;
-				continue;	
-			}
-			fprintf(stderr, "Change!");
 			// Now let's insert it
 			// First let's check for some special situations
 			if (cur_element == list->last) {
@@ -245,23 +251,21 @@
 			}	
 			// The acctual exchange
 			// The temporary next and prev for the element being inserted
-			temp->prev = cur_element->prev;
-			temp->next = cur_element->next;
-			temp->next->prev = temp->prev;
-			temp->prev->next = temp->next;
+			temp.prev = cur_element->prev;
+			temp.next = cur_element->next;
+			temp.next->prev = temp.prev;
+			temp.prev->next = temp.next;
 			// We dislocated this node
 			// Now let's place it BEFORE our considered position
 			// and fit the connections properly ---EC----- E is our element
 			cur_element->prev = consd_pos->prev;
 			cur_element->next = consd_pos;
 			cur_element->prev->next = cur_element;	
-			consd_pos->prev = cur_element;					
-			fprintf(stderr, "Bump! \n");
+			consd_pos->prev = cur_element;
 			// Iterating to next element		
-			cur_element = temp->next;
+			cur_element = temp.next;
 			consd_pos = cur_element->prev;
 		} while(cur_element != list->first);
-			fprintf(stderr, "Done");
 	}
 
 	// For printing the whole list
@@ -285,11 +289,12 @@
 			Node* temp;
 			temp = list->first;
 			// Now let's delete all the nodes and all the data structures in them
-			while (temp->next != temp) {
+			while (temp->next != list->last) {
 				free(temp->data);
 				temp = temp->next;
 				free(temp->prev);
 			}
+			free(temp);
 		}
 		// Now let's delete the list itself
 		free(list);

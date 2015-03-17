@@ -4,8 +4,10 @@ cflags = -std=gnu99 -pedantic -Wall -g
 lflags = -Wall 
 objs = main.o list.o
 main: $(objs)
-	$(cc) $(cflags) -o $@ $^
+	$(cc) $(cflags) -o $@ $^	
+lib: $(objs)
+	ar `list.a` list.o
 %.o: %.c 
-	$(cc) $(cflags)  -c -pedantic $<	
+	$(cc) $(cflags) -c -pedantic $<	
 clean:
-	rm -f *.o
+	rm -f *.o *.a	
