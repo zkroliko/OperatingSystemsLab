@@ -3,9 +3,13 @@ cxx = g++
 cflags = -std=gnu99 -pedantic -Wall -g
 lflags = -Wall 
 objs = list.o
+libs: liblist.so liblist.a
+	
+liblist.so: $(objs)
+	gcc -shared -fPIC -o liblist.so list.c 
 liblist.a: $(objs)
 	ar rcs $@ list.o
 %.o: %.c 
 	$(cc) $(cflags) -c -pedantic $<	
 clean:
-	rm -f *.o *.a $(objs) test
+	rm -f *.o *.a *.so $(objs) test

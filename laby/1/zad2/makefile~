@@ -2,7 +2,7 @@ cc = gcc
 cxx = g++
 cflags = -std=gnu99 -pedantic -Wall -g
 lflags = -Wall 
-objs = main.o list.o
+objs = main.o ../zad1/list.o
 test: main.o liblist.a
 	$(cc) $(cflags) -static -L. -llist -o $@ $^	
 liblist.a: $(objs)

@@ -19,7 +19,7 @@ int main () {
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n", ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
-	printf("-Alokujemy pamiec dla 6 generycznych kontaktow oraz listy.\n");
+	printf("Alokujemy pamiec dla 6 generycznych kontaktow oraz listy.\n");
 	List* list = List_new();
 
 	Data* data1 = Data_new("Andrzej", "Wolbrom", "1994-05-03", "Warszawa, Konopnicka 3", "4566123-34", "Andrzej@Wolbrom.com");
@@ -33,7 +33,7 @@ int main () {
 		fprintf(stderr, "Bad allocation!\n");
 		return 1;
 	}
-	printf("-Alokacja powiodla sie.\n");
+	printf("Alokacja powiodla sie.\n");
 
 	//Wypisuje czasy
 	printf("Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)CLOCKS_PER_SEC));
@@ -41,7 +41,7 @@ int main () {
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n", ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
-	printf("-Kazdy kontakt dodajemy do listy 3000 razy.\n");
+	printf("Kazdy kontakt dodajemy do listy 3000 razy.\n");
 
 	for (int i = 0; i < 3000; i++) {
 		List_push_back(list, data1);
@@ -59,7 +59,7 @@ int main () {
 	printf("Czas systemu: %f\n", ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
 
-	printf("-Sortujemy liste 18000 elementowa sortowaniem przez wstawianie.\n");
+	printf("Sortujemy liste 18000 elementowa sortowaniem przez wstawianie.\n");
 	List_sort(list);
 
 	//Wypisuje czasy
@@ -68,13 +68,13 @@ int main () {
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n", ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
-	printf("-Wykonujemy 1000 wyszukiwan liniowych w liscie.\n");
+	printf("Wykonujemy 1000 wyszukiwan liniowych w liscie.\n");
 	for (int i = 0; i < 100; i++) {
 		List_find(list, "Koszalow");
 		List_find(list, "czarnowies@krakow.com");
 	}
 
-	printf("-Dealokujemy pamiec w tym liste. Kazdy node posiada osobna kopie generycznego kontaktu.\n");
+	printf("Dealokujemy pamiec w tym liste. Kazdy node posiada osobna kopie generycznego kontaktu.\n");
 
 	Data_del(data1);
 	Data_del(data2);
