@@ -4,6 +4,7 @@
 #include <time.h>
 #include <sys/times.h>
 #include <unistd.h>
+#include <dlfcn.h>
 
 // Jaakies ladne kolorki
 
@@ -31,6 +32,48 @@
  
 int main () {
 
+
+	// Wypadaloby wyciszyc warningi od nieuzywanych wskaznikow funkcji
+
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wunused-variable"
+
+	// Otworzmy biblioteke
+	void* lib = dlopen("../zad1/liblist.so", RTLD_NOW);
+
+	printf(ANSI_COLOR_YELLOW "Otwieranie biblioteki dynamicznej"ANSI_COLOR_RESET"\n");
+	if (lib == NULL) {
+		fprintf(stderr,ANSI_COLOR_RED "Blednie otwarto biblioteke! Zamykamy program\n" ANSI_COLOR_RESET);
+		return 1;	
+	}
+	printf(ANSI_COLOR_GREEN "Bilbioteka otwarta poprawnie. Importujemy funkcje. \n" ANSI_COLOR_RESET);
+
+	// Zaimportujmy wszystko z biblioteki
+	Data* (*Data_new)(char*, char*, char*, char*, char*, char*) = dlsym(lib, "Data_new");
+	Data* (*Data_copy)(Data*) = dlsym(lib, "Data_copy");
+	void (*Data_print)(Data*) = dlsym(lib, "Data_print");
+	int (*Data_compare)(Data*, Data*) = dlsym(lib, "Data_compare");
+	unsigned char (*Data_detect)(Data*, char*) = dlsym(lib, "Data_detect");
+	void (*Data_del)(Data*) = dlsym(lib, "Data_del");
+
+	void (*List_push_front)(List*, Data*) = dlsym(lib, "List_push_front");
+	void (*List_push_back)(List*, Data*) = dlsym(lib, "List_push_back");
+
+	Data* (*List_pop_front)(List*) = dlsym(lib, "List_pop_front");
+	Data* (*List_pop_back)(List*) = dlsym(lib, "List_pop_back");
+
+	Data* (*List_find)(List*, char*) = dlsym(lib, "List_find");
+	void (*List_sort)(List*) = dlsym(lib, "List_sort");
+	void (*List_print)(List*) = dlsym(lib, "List_print");
+
+	List* (*List_new)() = dlsym(lib, "List_new");
+	void (*List_del)(List* list) = dlsym(lib, "List_del");
+
+	// Skonczylismy dodawac funckje z bilioteki
+	printf(ANSI_COLOR_YELLOW "Skoczono import funkcji z biblioteki.\n" ANSI_COLOR_RESET);
+
+	#pragma GCC diagnostic pop
+
 	// Struktura dla times
 	struct tms timesStruct;
 
@@ -41,10 +84,11 @@ int main () {
 
 	//Wypisuje czasy
 	printf(ANSI_COLOR_CYAN);
-	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)(CLOCKS_PER_SEC)));
+	printf("Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)(CLOCKS_PER_SEC)));
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
+
 
 	printf(ANSI_COLOR_YELLOW "Alokujemy pamiec dla 6 generycznych kontaktow oraz listy.\n" ANSI_COLOR_RESET);
 	List* list = List_new();
@@ -69,6 +113,7 @@ int main () {
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
+
 	printf(ANSI_COLOR_YELLOW "Kazdy kontakt dodajemy do listy 3000 razy.\n" ANSI_COLOR_RESET);
 
 	for (int i = 0; i < 3000; i++) {
@@ -87,6 +132,7 @@ int main () {
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
+
 	printf(ANSI_COLOR_YELLOW "Sortujemy liste 18000 elementowa sortowaniem przez wstawianie.\n" ANSI_COLOR_RESET);
 	List_sort(list);
 
@@ -96,6 +142,7 @@ int main () {
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
+
 
 	printf(ANSI_COLOR_YELLOW "Wykonujemy 2000 wyszukiwan liniowych w liscie.\n" ANSI_COLOR_RESET);
 	for (int i = 0; i < 1000; i++) {
@@ -109,6 +156,7 @@ int main () {
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
+
 
 	printf(ANSI_COLOR_YELLOW "Dealokujemy pamiec w tym liste. Kazdy node posiada osobna kopie generycznego kontaktu.\n" ANSI_COLOR_RESET);
 
@@ -128,8 +176,12 @@ int main () {
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
-
 	printf(ANSI_COLOR_MAGENTA "----PROGRAM KONCZY DZIALANIE----\n" ANSI_COLOR_RESET);
 
+	printf(ANSI_COLOR_YELLOW"Zamykamy biblioteke.\n"ANSI_COLOR_RESET);
+	if (dlclose(lib) != 0) {
+		fprintf(stderr,ANSI_COLOR_RED "Blednie zamknieto biblioteke!\n" ANSI_COLOR_RESET);	
+	}
+	printf(ANSI_COLOR_GREEN"Biblioteka zamknieta poprawnie.\n"ANSI_COLOR_RESET);
 	return 0;
 }
