@@ -8,6 +8,8 @@ cflags = -std=gnu99 -Wall -g
 lflags = -Wall 
 objs = main.o mainDynamic.o
 # Targets
+all: static shared dynamic
+	# Making all targets
 static: main.o ../zad1/liblist.a
 	 $(cc) $(cflags) -o $@ -L../zad1/ $^ -llist
 shared: main.o ../zad1/liblist.so
@@ -20,6 +22,6 @@ dynamic: mainDynamic.o
 ../zad1/liblist.so:
 	@echo "${red}Please compile the dynamic first, in the zad1 folder.${NC}"
 %.o: %.c 
-	$(cc) $(cflags) -shared --Wno-unused-variable -fPIC -c $< -ldl 
+	$(cc) $(cflags) -shared -fPIC -c $< -ldl 
 clean:
 	rm -f *.o *.a $(objs) static shared dynamic

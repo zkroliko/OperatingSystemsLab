@@ -8,6 +8,8 @@ cflags = -std=gnu99 -Wall -g
 lflags = -Wall 
 objs = main.o mainDynamic.o
 # Targets
+all: static shared dynamic
+	# Making all targets
 static: main.o ../zad1/liblist.a
 	 $(cc) $(cflags) -o $@ -L../zad1/ $^ -llist
 shared: main.o ../zad1/liblist.so

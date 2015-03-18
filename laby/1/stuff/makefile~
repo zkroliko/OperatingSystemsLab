@@ -10,4 +10,4 @@ liblist.a: $(objs)
 %.o: %.c 
 	$(cc) $(cflags) -c -pedantic $<	
 clean:
-	rm -f *.o *.a $(objs)
+	rm -f *.o *.a $(objs) test	

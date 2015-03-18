@@ -1,0 +1,21 @@
+Targety make'a w zadaniach:
+	Pierwsze zadanie:	
+		lib (domyslne) tworzy wszystkie biblioteki
+		liblist.so tworzy biblioteke dynamiczna
+		liblist.a tworzy biliboteke statyczna
+		clean
+	Drugie zadanie:
+		all (domyslne) tworzy 3 pliki wykonywalne
+		static tworzy program z użyciem biblioteki statycznej
+		shared tworzy program z użyciem bilioteki .so
+		dynamic tworzy program z użyciem biblioteki .so ładowanej dynamicznie
+
+Proszę uruchomić pierwsze zadanie przed drugim, którego make odnosi się do bibliotek powstałych w pierwszym.
+Make poinformuje o błędzie stosownym komunikatem, gdy nie wykryje plików.
+
+Scieżki są zależne także proszę trzymać zad1 i zad2 w tym samym folderze.
+
+Programy w drugim zadaniu koloruja konsolę, aby umożliwić łatwiejszy odczyt. Nie powinno być z nią problemu ale można wyłączyć tą funkcjonalność poprzez wykomentowanie linijki #define kolor w plikach zad2/main oraz zad2/mainDynamic.
+
+Pozdrawiam, Zbigniew Królikowski
+

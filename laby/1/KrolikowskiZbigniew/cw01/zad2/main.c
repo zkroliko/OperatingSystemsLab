@@ -64,7 +64,7 @@ int main () {
 
 	//Wypisuje czasy
 	printf(ANSI_COLOR_CYAN);
-	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)sysconf(_SC_CLK_TCK)));
+	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)(CLOCKS_PER_SEC)));
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
@@ -82,7 +82,7 @@ int main () {
 
 	//Wypisuje czasy
 	printf(ANSI_COLOR_CYAN);
-	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)sysconf(_SC_CLK_TCK)));
+	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)(CLOCKS_PER_SEC)));
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
@@ -92,10 +92,11 @@ int main () {
 
 	//Wypisuje czasy
 	printf(ANSI_COLOR_CYAN);
-	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)sysconf(_SC_CLK_TCK)));
+	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)(CLOCKS_PER_SEC)));
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
+
 	printf(ANSI_COLOR_YELLOW "Wykonujemy 2000 wyszukiwan liniowych w liscie.\n" ANSI_COLOR_RESET);
 	for (int i = 0; i < 1000; i++) {
 		List_find(list, "Koszalow");
@@ -104,7 +105,7 @@ int main () {
 
 	//Wypisuje czasy
 	printf(ANSI_COLOR_CYAN);
-	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)sysconf(_SC_CLK_TCK)));
+	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)(CLOCKS_PER_SEC)));
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
@@ -122,7 +123,7 @@ int main () {
 
 	//Wypisuje czasy
 	printf(ANSI_COLOR_CYAN);
-	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)sysconf(_SC_CLK_TCK)));
+	printf( "Czas zegara scienego: %f\n", ((double)(clock() - startTime) / (double)(CLOCKS_PER_SEC)));
 	times(&timesStruct);
 	printf("Czas uzytkownika: %f\n", ((double)(timesStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
 	printf("Czas systemu: %f\n" ANSI_COLOR_RESET, ((double)(timesStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));

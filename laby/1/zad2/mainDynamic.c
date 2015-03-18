@@ -32,12 +32,6 @@
  
 int main () {
 
-
-	// Wypadaloby wyciszyc warningi od nieuzywanych wskaznikow funkcji
-
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wunused-variable"
-
 	// Otworzmy biblioteke
 	void* lib = dlopen("../zad1/liblist.so", RTLD_NOW);
 
@@ -49,30 +43,29 @@ int main () {
 	printf(ANSI_COLOR_GREEN "Bilbioteka otwarta poprawnie. Importujemy funkcje. \n" ANSI_COLOR_RESET);
 
 	// Zaimportujmy wszystko z biblioteki
-	Data* (*Data_new)(char*, char*, char*, char*, char*, char*) = dlsym(lib, "Data_new");
-	Data* (*Data_copy)(Data*) = dlsym(lib, "Data_copy");
-	void (*Data_print)(Data*) = dlsym(lib, "Data_print");
-	int (*Data_compare)(Data*, Data*) = dlsym(lib, "Data_compare");
-	unsigned char (*Data_detect)(Data*, char*) = dlsym(lib, "Data_detect");
-	void (*Data_del)(Data*) = dlsym(lib, "Data_del");
+	// Wyciszamy warningi o "nieuzywanych" zmiennych. Sa one uzywane wewnatrz innych funkcji
+	__attribute__((unused)) Data* (*Data_new)(char*, char*, char*, char*, char*, char*) = dlsym(lib, "Data_new");
+	__attribute__((unused)) Data* (*Data_copy)(Data*) = dlsym(lib, "Data_copy");
+	__attribute__((unused)) void (*Data_print)(Data*) = dlsym(lib, "Data_print");
+	__attribute__((unused)) int (*Data_compare)(Data*, Data*) = dlsym(lib, "Data_compare");
+	__attribute__((unused)) unsigned char (*Data_detect)(Data*, char*) = dlsym(lib, "Data_detect");
+	__attribute__((unused)) void (*Data_del)(Data*) = dlsym(lib, "Data_del");
 
-	void (*List_push_front)(List*, Data*) = dlsym(lib, "List_push_front");
-	void (*List_push_back)(List*, Data*) = dlsym(lib, "List_push_back");
+	__attribute__((unused)) void (*List_push_front)(List*, Data*) = dlsym(lib, "List_push_front");
+	__attribute__((unused)) void (*List_push_back)(List*, Data*) = dlsym(lib, "List_push_back");
 
-	Data* (*List_pop_front)(List*) = dlsym(lib, "List_pop_front");
-	Data* (*List_pop_back)(List*) = dlsym(lib, "List_pop_back");
+	__attribute__((unused)) Data* (*List_pop_front)(List*) = dlsym(lib, "List_pop_front");
+	__attribute__((unused)) Data* (*List_pop_back)(List*) = dlsym(lib, "List_pop_back");
 
-	Data* (*List_find)(List*, char*) = dlsym(lib, "List_find");
-	void (*List_sort)(List*) = dlsym(lib, "List_sort");
-	void (*List_print)(List*) = dlsym(lib, "List_print");
+	__attribute__((unused)) Data* (*List_find)(List*, char*) = dlsym(lib, "List_find");
+	__attribute__((unused)) void (*List_sort)(List*) = dlsym(lib, "List_sort");
+	__attribute__((unused)) void (*List_print)(List*) = dlsym(lib, "List_print");
 
-	List* (*List_new)() = dlsym(lib, "List_new");
-	void (*List_del)(List* list) = dlsym(lib, "List_del");
+	__attribute__((unused)) List* (*List_new)() = dlsym(lib, "List_new");
+	__attribute__((unused)) void (*List_del)(List* list) = dlsym(lib, "List_del");
 
 	// Skonczylismy dodawac funckje z bilioteki
 	printf(ANSI_COLOR_YELLOW "Skoczono import funkcji z biblioteki.\n" ANSI_COLOR_RESET);
-
-	#pragma GCC diagnostic pop
 
 	// Struktura dla times
 	struct tms timesStruct;
