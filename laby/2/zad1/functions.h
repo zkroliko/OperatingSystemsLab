@@ -16,5 +16,5 @@
 unsigned char compare(char* first, char* second);
 void printKeys(char* filename, int size);
 int copy_file(char *old_filename, char  *new_filename);
-void testStdio(char* filename, int size);
-void testUnistd(char* filename, int size);
+void sortLib(char* filename, int size);
+void sortSys(char* filename, int size);

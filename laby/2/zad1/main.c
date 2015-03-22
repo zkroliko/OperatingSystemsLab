@@ -39,7 +39,7 @@ int main() {
 		times(&startStruct);
 
 		// Pierwszy test 
-		testStdio(filenamesLib[i], sizes[i]);
+		sortLib(filenamesLib[i], sizes[i]);
 
 		//Wypisuje czasy
 		printf( "---Czasy dla fwrite i fread---\n");
@@ -54,7 +54,7 @@ int main() {
 		times(&startStruct);
 
 		// Drugi test
-		testUnistd(filenamesSys[i], sizes[i]);
+		sortSys(filenamesSys[i], sizes[i]);
 
 		//Wypisuje czasy
 		printf( "---Czasy dla write i read---\n");

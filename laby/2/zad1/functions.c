@@ -71,7 +71,7 @@ int copy_file(char *old_filename, char  *new_filename)	{
 }
 
 // Test fwirte i fread
-void testStdio(char* filename, int size) {
+void sortLib(char* filename, int size) {
 
 	FILE* file = fopen(filename,"rw+");
 
@@ -131,7 +131,7 @@ void testStdio(char* filename, int size) {
 	free(second);
 }
 
-void testUnistd(char* filename, int size) {
+void sortSys(char* filename, int size) {
 
 	int file = open(filename,O_RDWR);
 
