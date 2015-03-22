@@ -1,173 +1,68 @@
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/times.h>
 
 #include "generator.h"
+#include "functions.h"
 
-#define FILENAME "rekordy"
+#define FILENAMEORG "rekordy/original"
 
 #define size1 1
-#define count1 10
-
-// Porownujemy dwa rekordy
-unsigned char compare(char* first, char* second) {
-	if ((unsigned int)first[0] > (unsigned int)second[0]) {
-		return 1;	
-	}
-	return 0;
-}
-
-//Wypisuje klucze
-void printKeys(int size, int count) {
-
-	FILE* file = fopen(FILENAME,"rb");
-	if (!file) {
-		fprintf(stderr, "Blad przy otwarciu pliku!\n");
-		exit(2);
-	}
-
-	char unsigned* key = malloc(sizeof(char));
-
-	size_t read;
-
-	for (int i = 0; i < count; i++) {
-		read = fread(key,sizeof(char),1,file);
-		if (read != 1) {
-			fprintf(stderr, "Zly odczyt z pliku w wypisywaniu kluczy!\n");
-			exit(2);
-		}
-		printf("%u ",*key);
-		fseek(file,size-1,SEEK_CUR); // -1 poniewaz funkcja fread juz nas przesunela
-	}
-	printf("\n");
-	fclose(file);
-}
-
-void testStdio(int size, int count) {
-
-	FILE* file = fopen(FILENAME,"rw+");
-
-	if (!file) {
-		fprintf(stderr, "Blad przy otwarciu pliku.\n");
-		exit(2);
-	}
-
-	char* first = malloc(size*sizeof(char));
-	char* second = malloc(size*sizeof(char));
-
-	if (first == NULL || second == NULL) {
-		fprintf(stderr, "Zla alokacja w tescie.\n");
-		exit(2);
-	}
-
-	size_t readFirst;
-	size_t readSecond;
-	size_t written;
-
-	for (int i = 0; i < count -1; i++) {
-		// Przesuwamy sie na odpowiednia pozycje w pliku
-		fseek(file,0,SEEK_SET);
-		for( int j = 0 ; j < count - i -1; j++) {
-			readFirst  = fread(first,sizeof(char),size,file);
-			readSecond = fread(second,sizeof(char),size,file);
-			// Sprawdzamy poprawnosc odczytu
-			if (readFirst != size || readSecond != size) {
-				fprintf(stderr, "Zly odczyt z pliku w tescie z stdio.\n");
-				exit(2);
-			}
-			if (compare(first,second) != 0) {
-				// Jezeli sa w odwrotnej kolejnosci to zapisujemy je w pliku w prawidlowej
-				fseek(file,-2*size,SEEK_CUR);
-				written = fwrite(second,sizeof(char),size,file);
-				written += fwrite(first,sizeof(char),size,file);
-				if (written != size*2) {
-					fprintf(stderr, "Blas zapisu stdio w sortowaniu!\n");
-					exit(2);
-				}
-			}
-			// Przesuwamy sie o jedna pozycje do tylu w pliku
-			fseek(file,-size,SEEK_CUR);
-
-			// DEBUGprintKeys(size,count);
-		}
-	}	
-
-	fclose(file);
-	free(first);
-	free(second);
-}
-
-void testUnistd(int size, int count) {
-
-	int file = open(FILENAME,1);
-
-	if (file < 0) {
-		fprintf(stderr, "Blad przy otwarciu pliku.\n");
-		exit(2);
-	}
-
-	void* first = malloc(size*sizeof(char));
-	void* second = malloc(size*sizeof(char));
-
-	if (first == NULL || second == NULL) {
-		fprintf(stderr, "Zla alokacja w tescie.\n");
-		exit(2);
-	}
-
-
-	size_t readFirst;
-	size_t readSecond;
-	size_t written;
-
-	for (int i = 0; i < count -1; i++) {
-		// Przesuwamy sie na odpowiednia pozycje w pliku
-		lseek(file,0,SEEK_SET);
-		
-		for( int j = 0 ; j < count - i -1; j++) {
-			readFirst  = read(file, first,size);
-			readSecond = read(file, second,size);
-			
-			if (readFirst != size || readSecond != size) {
-				printf("%d %d\n", readFirst, readSecond);
-				fprintf(stderr, "Zly odczyt z pliku w tescie z unistd!\n");
-				exit(2);
-			}
-			/*
-			if (compare(first,second) != 0) {
-				// Jezeli sa w odwrotnej kolejnosci to zapisujemy je w pliku w prawidlowej
-				fseek(file,-2*size,SEEK_CUR);
-				written = fwrite(second,sizeof(char),size,file);
-				written += fwrite(first,sizeof(char),size,file);
-				if (written != size*2) {
-					fprintf(stderr, "Blas zapisu stdio w sortowaniu!\n");
-					exit(2);
-				}
-			}
-			*/
-			// Przesuwamy sie o jedna pozycje do tylu w pliku
-			lseek(file,-size,SEEK_CUR);
-
-			// DEBUGprintKeys(size,count);
-			
-		}
-
-
-	}
-
-	close(file);
-	free(first);
-	free(second);
-}
+#define count1 20
 
 int main() {
-	if (generate(FILENAME,size1,count1) >= 0) {
-		printKeys(size1, count1);
-		testStdio(size1, count1);
-		testUnistd(size1, count1);
-		printKeys(size1, count1);
+
+	int sizes[4] = {1,2,3,4};
+	int counts[4] = {10,20,30,40};
+	char* filenamesLib[4] = {"rekordy/file1Lib","rekordy/file2Lib","rekordy/file3Lib","rekordy/file4Lib"};
+	char* filenamesSys[4] = {"rekordy/file1Sys","rekordy/file2Sys","rekordy/file3Sys","rekordy/file4Sys"};
+
+	// Struktura dla times
+	struct tms startStruct;
+	struct tms endStruct; // Musimy zapamietywac roznice
+
+	// Czas dla time
+	clock_t timeStart;
+	clock_t timeEnd;	
+
+
+	for (int i = 0; i < 4; ++i) {
+		printf( "---Test bedzie przeprowadzony rekordow wielkosci %d, oraz ilosci %d---\n", sizes[i], counts[i]);
+
+		// Generujemy plik testowy
+		generate(FILENAMEORG,sizes[i],counts[i]);
+
+		// Robimy kopie plikow
+
+		copy_file(FILENAMEORG, filenamesLib[i]);
+		copy_file(FILENAMEORG, filenamesSys[i]);
+
+		// Generuje czasy poczatkowe
+		timeStart = clock();
+		times(&startStruct);
+
+		// Pierwszy test 
+		testStdio(filenamesLib[i], sizes[i]);
+
+		//Wypisuje czasy
+		printf( "---Czasy dla fwrite i fread---\n");
+		times(&endStruct);
+		timeEnd = clock();
+		printf( "Czas zegara scienego: %f\n", ((double)(timeEnd - timeStart) / (double)(CLOCKS_PER_SEC)));
+		printf("Czas uzytkownika: %f\n", ((double)(endStruct.tms_utime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
+		printf("Czas systemu: %f\n", ((double)(endStruct.tms_stime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
+
+		// Generuje czasy poczatkowe
+		timeStart = clock();
+		times(&startStruct);
+
+		// Drugi test
+		testUnistd(filenamesSys[i], sizes[i]);
+
+		//Wypisuje czasy
+		printf( "---Czasy dla write i read---\n");
+		times(&endStruct);
+		timeEnd = clock();
+		printf( "Czas zegara scienego: %f\n", ((double)(timeEnd - timeStart) / (double)(CLOCKS_PER_SEC)));
+		printf("Czas uzytkownika: %f\n", ((double)(endStruct.tms_utime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
+		printf("Czas systemu: %f\n", ((double)(endStruct.tms_stime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
+
 	}
 }
-
-
