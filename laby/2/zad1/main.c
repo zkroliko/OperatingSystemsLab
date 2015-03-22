@@ -4,13 +4,10 @@
 
 #define FILENAMEORG "rekordy/original"
 
-#define size1 1
-#define count1 20
-
 int main() {
 
-	int sizes[4] = {1,2,3,4};
-	int counts[4] = {10,20,30,40};
+	int sizes[4] = {4,512,4096,8192};
+	int counts[4] = {5000,4000,3000,2000};
 	char* filenamesLib[4] = {"rekordy/file1Lib","rekordy/file2Lib","rekordy/file3Lib","rekordy/file4Lib"};
 	char* filenamesSys[4] = {"rekordy/file1Sys","rekordy/file2Sys","rekordy/file3Sys","rekordy/file4Sys"};
 
@@ -47,7 +44,7 @@ int main() {
 		timeEnd = clock();
 		printf( "Czas zegara scienego: %f\n", ((double)(timeEnd - timeStart) / (double)(CLOCKS_PER_SEC)));
 		printf("Czas uzytkownika: %f\n", ((double)(endStruct.tms_utime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
-		printf("Czas systemu: %f\n", ((double)(endStruct.tms_stime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
+		printf("Czas systemu: %f\n", ((double)(endStruct.tms_stime - startStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
 		// Generuje czasy poczatkowe
 		timeStart = clock();
@@ -62,7 +59,7 @@ int main() {
 		timeEnd = clock();
 		printf( "Czas zegara scienego: %f\n", ((double)(timeEnd - timeStart) / (double)(CLOCKS_PER_SEC)));
 		printf("Czas uzytkownika: %f\n", ((double)(endStruct.tms_utime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
-		printf("Czas systemu: %f\n", ((double)(endStruct.tms_stime - startStruct.tms_utime) / (double)sysconf(_SC_CLK_TCK)));
+		printf("Czas systemu: %f\n", ((double)(endStruct.tms_stime - startStruct.tms_stime) / (double)sysconf(_SC_CLK_TCK)));
 
 	}
 }

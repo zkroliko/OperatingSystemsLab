@@ -16,4 +16,4 @@ sortLib: mainSortLib.o functions.o
 %.o: %.c 
 	$(cc) $(cflags) -c -pedantic $<	
 clean:
-	rm -f *.o *.a $(objs) test main generator
+	rm -f *.o *.a $(objs) test main generator sortLib sortSys rekordy/*

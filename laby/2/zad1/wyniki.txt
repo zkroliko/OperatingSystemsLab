@@ -1,0 +1,63 @@
+---Test przeprowadzony rekordow wielkosci 4, oraz ilosci 5000--- Ilość bajtów: 20000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 17.322287
+Czas uzytkownika: 4.560000
+Czas systemu: 12.760000
+---Czasy dla write i read---
+Czas zegara scienego: 27.569132
+Czas uzytkownika: 3.180000
+Czas systemu: 24.390000
+---Test przeprowadzony rekordow wielkosci 512, oraz ilosci 4000--- Ilość bajtów: 2048000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 13.889137
+Czas uzytkownika: 3.800000
+Czas systemu: 10.090000
+---Czasy dla write i read---
+Czas zegara scienego: 17.705310
+Czas uzytkownika: 2.160000
+Czas systemu: 15.550000
+---Test przeprowadzony rekordow wielkosci 4096, oraz ilosci 3000--- Ilość bajtów: 12288000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 21.509184
+Czas uzytkownika: 3.140000
+Czas systemu: 18.380000
+---Czasy dla write i read---
+Czas zegara scienego: 24.671886
+Czas uzytkownika: 1.120000
+Czas systemu: 23.550000
+---Test przeprowadzony rekordow wielkosci 8192, oraz ilosci 2000--- Ilość bajtów: 16384000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 17.425456
+Czas uzytkownika: 1.520000
+Czas systemu: 15.910000
+---Czasy dla write i read---
+Czas zegara scienego: 20.193127
+Czas uzytkownika: 0.550000
+Czas systemu: 19.650000
+
+Wydajność w poszczególnych próbach:
+Fread / fwrite:
+(4x5000) 1154.58 bajt/s
+(512x4000) 147453.36 bajt/s
+(4096x3000) 571290.84 bajt/s
+(8192x2000) 940233.64 bajt/s
+Read / write:
+(4x5000) 725.44 bajt/s
+(512x4000) 115671.51 bajt/s
+(4096x3000) 498056.77 bajt/s
+(8192x2000) 811365.17 bajt/s
+
+Wnioski:
+Wraz ze zwiększaniem się objętości danych rośnie wydajność czasowa, zarówno w przypadku funkcji systemowych jak i bibliotecznych. Wynika to z tego, że obsługa przejścia w tryb jądra wymaga sporych nakładów czasowych ze względu na konieczność zapisania stanu programu na dysk twardy/cache. Równie ważnym jest problem polagający na tym, że za każdym razem gdy wywołujemy funkcję odczytu lub zapisu, przechodzi ona przez wstępne jak i końcowe kroki swojego algorytmu.
+
+Drugim wnioskiem jest fakt, że funckje biblioteczne są szybsze. Ta różnica maleje wraz ze wzrostem wielkości rekordów. W tym eksperymencie uzyskano od ok. 40% do ok. 10% różnicy w wydajności.
+
+Ta różnica wynika z faktu, że funkcje biblioteczne są buforowane co zwiększa ich wydajność, zwłaszcza w przypadku małych rekordów.
+
+
+
+
+
+
+
+

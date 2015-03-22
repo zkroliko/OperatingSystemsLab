@@ -1,0 +1,6 @@
+Domyślny target maka utworzy cztery pliki wykonywalne:
+generator - jak w treści zadania <<nazwa pliku> <wielkosc> <liczba>>
+sortSys - jak w treści zadania (uwaga! nadpisuje plik) <<nazwa pliku> <wielkosc>>
+sortLib - jak w treści zadania (uwaga! nadpisuje plik) <<nazwa pliku> <wielkosc>>
+oraz:
+test - program, który automatyzuje wykonanie wszystkich testów, wypisuje 8 zestawów danych do konsoli
