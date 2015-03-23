@@ -7,7 +7,7 @@
 int main() {
 
 	int sizes[4] = {4,512,4096,8192};
-	int counts[4] = {5000,4000,3000,2000};
+	int counts[4] = {4000,4000,4000,4000};
 	char* filenamesLib[4] = {"rekordy/file1Lib","rekordy/file2Lib","rekordy/file3Lib","rekordy/file4Lib"};
 	char* filenamesSys[4] = {"rekordy/file1Sys","rekordy/file2Sys","rekordy/file3Sys","rekordy/file4Sys"};
 

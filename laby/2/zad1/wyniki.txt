@@ -30,7 +30,7 @@ Czas systemu: 23.550000
 Czas zegara scienego: 17.425456
 Czas uzytkownika: 1.520000
 Czas systemu: 15.910000
----Czasy dla write i read---
+---Czasy dla write i read---2000
 Czas zegara scienego: 20.193127
 Czas uzytkownika: 0.550000
 Czas systemu: 19.650000
@@ -47,12 +47,65 @@ Read / write:
 (4096x3000) 498056.77 bajt/s
 (8192x2000) 811365.17 bajt/s
 
+---Test przeprowadzony rekordow wielkosci 4, oraz ilosci 4000--- Ilość bajtów: 16000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 10.794252
+Czas uzytkownika: 2.920000
+Czas systemu: 7.870000
+---Czasy dla write i read---
+Czas zegara scienego: 17.280132
+Czas uzytkownika: 2.190000
+Czas systemu: 15.090000
+---Test przeprowadzony rekordow wielkosci 512, oraz ilosci 4000--- Ilość bajtów: 2048000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 13.151083
+Czas uzytkownika: 3.640000
+Czas systemu: 9.510000
+---Czasy dla write i read---
+Czas zegara scienego: 16.931611
+Czas uzytkownika: 1.940000
+Czas systemu: 14.990000
+---Test przeprowadzony rekordow wielkosci 4096, oraz ilosci 4000--- Ilość bajtów: 16384000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 36.231410
+Czas uzytkownika: 5.100000
+Czas systemu: 31.140000
+---Czasy dla write i read---
+Czas zegara scienego: 41.527545
+Czas uzytkownika: 2.100000
+Czas systemu: 39.420000
+---Test przeprowadzony rekordow wielkosci 8192, oraz ilosci 4000--- Ilość bajtów: 32768000
+---Czasy dla fwrite i fread---
+Czas zegara scienego: 66.176383
+Czas uzytkownika: 6.040000
+Czas systemu: 60.130000
+---Czasy dla write i read---
+Czas zegara scienego: 77.145081
+Czas uzytkownika: 2.270000
+Czas systemu: 74.880000
+
+Wydajność w poszczególnych próbach:
+Fread / fwrite:
+(4x4000) 1482.27 bajt/s
+(512x4000) 155728.61 bajt/s
+(4096x4000) 452204.31 bajt/s
+(8192x4000) 495161.54 bajt/s
+Read / write:
+(4x4000)925.91 bajt/s
+(512x4000) 120957.18 bajt/s
+(4096x4000) 394533.31 bajt/s
+(8192x4000) 424758.12 bajt/s
+
 Wnioski:
 Wraz ze zwiększaniem się objętości danych rośnie wydajność czasowa, zarówno w przypadku funkcji systemowych jak i bibliotecznych. Wynika to z tego, że obsługa przejścia w tryb jądra wymaga sporych nakładów czasowych ze względu na konieczność zapisania stanu programu na dysk twardy/cache. Równie ważnym jest problem polagający na tym, że za każdym razem gdy wywołujemy funkcję odczytu lub zapisu, przechodzi ona przez wstępne jak i końcowe kroki swojego algorytmu.
 
-Drugim wnioskiem jest fakt, że funckje biblioteczne są szybsze. Ta różnica maleje wraz ze wzrostem wielkości rekordów. W tym eksperymencie uzyskano od ok. 40% do ok. 10% różnicy w wydajności.
+Drugim wnioskiem jest fakt, że funckje biblioteczne są szybsze. Ta różnica maleje wraz ze wzrostem wielkości rekordów. W tym eksperymencie uzyskano od ok. 50% do ok. 10% różnicy w wydajności.
 
 Ta różnica wynika z faktu, że funkcje biblioteczne są buforowane co zwiększa ich wydajność, zwłaszcza w przypadku małych rekordów.
+
+Analizując interpolację wykresów ((il. bajtów / czas )/ wielkość rekordu) w programie graficznym da się zauważyć punkt przegięcia występujący pomiędzy wielkościami rekordów 512 a 4096. Ponadto w drugiej serii doświadczeń przy 4000 rekordach wielkości 8192 wykres ulega "wypłaszczeniu" tzn. przy zwiększaniu wielkości rekordu nie obserwujemy wzrostu wydajności sortowania. Może to wynikać np. z ograniczonej wielkości cache dysku twardego.
+
+
 
 
 
