@@ -35,7 +35,7 @@ Czas zegara scienego: 20.193127
 Czas uzytkownika: 0.550000
 Czas systemu: 19.650000
 
-Wydajność w poszczególnych próbach:
+Wydajnosc w poszczególnych probach:
 Fread / fwrite:
 (4x5000) 1154.58 bajt/s
 (512x4000) 147453.36 bajt/s
@@ -84,7 +84,7 @@ Czas zegara scienego: 77.145081
 Czas uzytkownika: 2.270000
 Czas systemu: 74.880000
 
-Wydajność w poszczególnych próbach:
+Wydajnosc w poszczególnych probach:
 Fread / fwrite:
 (4x4000) 1482.27 bajt/s
 (512x4000) 155728.61 bajt/s
@@ -97,13 +97,13 @@ Read / write:
 (8192x4000) 424758.12 bajt/s
 
 Wnioski:
-Wraz ze zwiększaniem się objętości danych rośnie wydajność czasowa, zarówno w przypadku funkcji systemowych jak i bibliotecznych. Wynika to z tego, że obsługa przejścia w tryb jądra wymaga sporych nakładów czasowych ze względu na konieczność zapisania stanu programu na dysk twardy/cache. Równie ważnym jest problem polagający na tym, że za każdym razem gdy wywołujemy funkcję odczytu lub zapisu, przechodzi ona przez wstępne jak i końcowe kroki swojego algorytmu.
+Wraz ze zwiekszaniem się objetosci danych rosnie wydajność czasowa, zarowno w przypadku funkcji systemowych jak i bibliotecznych. Wynika to z tego, że obsluga przejscia w tryb jadra wymaga sporych nakładow czasowych ze wzgledu na koniecznosc zapisania stanu programu na dysk twardy/cache. Rownie waznym jest problem polagajacy na tym, ze za kazdym razem gdy wywolujemy funkcje odczytu lub zapisu, przechodzi ona przez wstepne jak i koncowe kroki swojego algorytmu.
 
-Drugim wnioskiem jest fakt, że funckje biblioteczne są szybsze. Ta różnica maleje wraz ze wzrostem wielkości rekordów. W tym eksperymencie uzyskano od ok. 50% do ok. 10% różnicy w wydajności.
+Drugim wnioskiem jest fakt, ze funckje biblioteczne sa szybsze. Ta roznica maleje wraz ze wzrostem wielkości rekordow. W tym eksperymencie uzyskano od ok. 50% do ok. 10% roznicy w wydajnosci.
 
-Ta różnica wynika z faktu, że funkcje biblioteczne są buforowane co zwiększa ich wydajność, zwłaszcza w przypadku małych rekordów.
+Ta roznica wynika z faktu, ze funkcje biblioteczne sa buforowane co zwieksza ich wydajnosc, zwlaszcza w przypadku małych rekordow.
 
-Analizując interpolację wykresów ((il. bajtów / czas )/ wielkość rekordu) w programie graficznym da się zauważyć punkt przegięcia występujący pomiędzy wielkościami rekordów 512 a 4096. Ponadto w drugiej serii doświadczeń przy 4000 rekordach wielkości 8192 wykres ulega "wypłaszczeniu" tzn. przy zwiększaniu wielkości rekordu nie obserwujemy wzrostu wydajności sortowania. Może to wynikać np. z ograniczonej wielkości cache dysku twardego.
+Analizujac interpolacje wykresów ((il. bajtów / czas )/ wielkość rekordu) w programie graficznym da się zauwazyc punkt przegiecia występujacy pomiedzy wielkosciami rekordów 512 a 4096. Ponadto w drugiej serii doswiadczeń przy 4000 rekordach wielkosci 8192 wykres ulega "wyplaszczeniu" tzn. przy zwiekszaniu wielkosci rekordu nie obserwujemy wzrostu wydajnosci sortowania. Moze to wynikac np. z ograniczonej wielkości cache dysku twardego.
 
 
 
