@@ -1,0 +1,9 @@
+#include "common.h"
+
+#include <ftw.h>
+
+#define HEADERS
+
+int get_statistics(const char* dirPath, const struct stat* st, int flag);
+
+
