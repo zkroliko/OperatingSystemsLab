@@ -5,7 +5,6 @@
 
 #include <ftw.h>
 
-
 int get_statistics(const char* dirPath, const struct stat* st, int flag);
 
 

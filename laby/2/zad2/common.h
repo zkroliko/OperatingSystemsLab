@@ -10,5 +10,5 @@
 
 // Deklaracje tych funkcji, ktore sa doklanie w tej samej postaci w obu wariantach
 
-int check(char* OurAccessMode, struct stat st);
+int check(char* ourAccessMode, struct stat st);
 int parse_access(char* accessMode);

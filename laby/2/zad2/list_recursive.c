@@ -32,7 +32,7 @@ int get_statistics(char* dirPath, struct stat* st) {
 	// Czas 
 	time_t time = st->st_mtime;
 	struct tm timeStruct;
-	char strtime[80];
+	char timeString[90];
 	
 	// Odtworzenie w odpowiedni sposob sciezki
 	// cofamy sie az do znalezenia odpowiedniej sciezki
@@ -41,10 +41,11 @@ int get_statistics(char* dirPath, struct stat* st) {
 		c--;
 	}
 	
+	// Ladne wypisanie czasu
 	timeStruct = *localtime(&time);
-	strftime(strtime, sizeof(strtime), "%a %Y-%m-%d %H:%M:%S %Z", &timeStruct);
+	strftime(timeString, sizeof(timeString), "%a %d-%m-%Y %H:%M:%S %Z", &timeStruct);
 
-	printf("%s: %d, %s\n", c+1, (int) st->st_size, strtime);
+	printf("%s %d %s\n", dirPath, (int) st->st_size, timeString);
 	return 0;
 }
 
@@ -52,28 +53,30 @@ int get_statistics(char* dirPath, struct stat* st) {
 int traverse(char* dirPath, char* mod) {
 
 	struct dirent* dent;
-	DIR* dir;
-	struct stat st;
+	DIR* directory;
+	struct stat statStruct;
 	char filename[FILENAME_MAX];
 	int len = strlen(dirPath);
 	
+	// Sprawdzamy dlugosc nazwy pliku
 	if (len >= FILENAME_MAX - 1) {
 		fprintf(stderr,"Za dluga nazwa jednego z pliku w drzewie !\n");
 		return -1;
 	}
-	if (lstat(path, &st) < 0) {
+	// Uruchamiamy lstat, zapisze to nam strukture
+	if (lstat(dirPath, &statStruct) < 0) {
 		fprintf(stderr, "Blad funkcji lstat!\n");
 		return -1;
 	}
-	if (S_ISREG(st.st_mode)) {
-		if (check(mod, st)) {
+	if (S_ISREG(statStruct.st_mode)) {
+		if (check(mod, statStruct)) {
 			return get_statistics(dirPath, &st);
 		}
 		return 0;
 	}
 	
 	// Sprawdzamy czy to nie przypadkiem cos innego niz katalog ani plik zwykly
-	if (!(S_ISDIR(st.st_mode))) {
+	if (!(S_ISDIR(statStruct.st_mode))) {
 		 return 0; // jesli to nie jest katalog ani zwykly plik to nic nie robimy
 	}
 	
@@ -81,18 +84,18 @@ int traverse(char* dirPath, char* mod) {
 	strcpy(filename, dirPath);
 	filename[len++] = '/';
 	
-	if (!(dir = opendir(dirPath))) {
-		fprintf(stderr, "Blad przy otwieraniu folderu: %s !\n", path);
+	if (!(directory = opendir(dirPath))) {
+		fprintf(stderr, "Blad przy otwieraniu folderu: %s !\n", dirPath);
 		return 0;
 	}
 	
-	while ((dent = readdir(dirPath))) {
+	while ((dent = readdir(directory))) {
 		if (strcmp(dent->d_name, ".") == 0 || strcmp(dent->d_name, "..") == 0) continue;
 		strcpy(filename+len, dent->d_name);
 		if (traverse(filename, mod) != 0) break;
 	}
 	
-	if (closedir(dirPath) < 0)	{
+	if (closedir(directory) < 0)	{
 		fprintf(stderr, "Blad przy zamknieciu katalogu %s !\n", filename);
 		return -1;
 	}

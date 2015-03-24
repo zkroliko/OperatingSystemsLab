@@ -1,8 +1,8 @@
 // W tym pliku zawarte sa te z funkcje, ktore sa wspoledzione przez obydwa warianty
 
-#include "common.h"
-
-#define HEADERS
+#ifndef COMMON 
+	#define COMMON
+	#include "common.h"
 #endif
 
 // Parsuje nasz string, ktory okresla poszukiwane prawa do dostepu

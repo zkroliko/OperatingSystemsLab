@@ -1,6 +1,6 @@
 #include "list_ftw.h"
 
-#define OPEN_MAX 256
+#define MAX_FILES 512
 
 // Zmienna globalna do zapamietywania uprawnien
 // Niestety trzeba tak zrobic, bo funkcja ftw, nie przyjmie "dodatkowego pasazera"
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 	int  (*fPointer)(const char*, const struct stat*, int);
 	fPointer = (&get_statistics); // Adres funkcji
 		
-	if (ftw(filePath, fPointer, OPEN_MAX) != 0) {
+	if (ftw(filePath, fPointer, MAX_FILES) != 0) {
 		fprintf(stderr, "Blad w funkcji ftw!\n");
 		return -1;
 	}
@@ -45,7 +45,7 @@ int get_statistics(const char* dirPath, const struct stat* st, int flag) {
 	// Sprawdzamy flage poprawnego odczytu katalogu
 	// gdy np. nie mamy uprawnien
 	if (flag == FTW_DNR) {
-		fprintf(stderr, "Blad przy odczycie katalogu %s !\n", dirPath);
+		fprintf(stderr, "Blad przy otwarciu katalogu %s !\n", dirPath);
 		return -1;
 	}
 	
@@ -54,13 +54,13 @@ int get_statistics(const char* dirPath, const struct stat* st, int flag) {
 		// Wczytujemy czas modyfikacji ze struktury
 		time_t t = st->st_mtime;
 		struct tm time;
-		char temptime[80];
+		char timeString[90];
 		time = *localtime(&t);
 		// Funkcja od formatowania czasu w poprwawnej formie
-		strftime(temptime, sizeof(temptime), "%a %Y-%m-%d %H:%M:%S %Z", &time);
+		strftime(timeString, sizeof(timeString), "%a %Y-%m-%d %H:%M:%S %Z", &time);
 		// Sprawdzamy czy uprawnienia sa prawidlowe
 		if (check(accessMode, *st)) {
-			printf("%s: %d, %s\n", dirPath, (int) st->st_size, temptime);
+			printf("%s %d %s\n", dirPath, (int) st->st_size, timeString);
 		}
 		
 		return 0;
