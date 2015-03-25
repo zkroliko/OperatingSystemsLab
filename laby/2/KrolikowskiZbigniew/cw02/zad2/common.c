@@ -26,17 +26,17 @@ int parse_access(char* accessMode) {
 }
 
 // Sprawdza czy dany plik pasuje do naszych uprawnien
-int check(char* OurAccessMode, struct stat st) {
+int check(char* ourAccessMode, struct stat st) {
 	mode_t thisFileMode = 0;
-	if(OurAccessMode[0] == 'r') thisFileMode+= S_IRUSR;
-	if(OurAccessMode[1] == 'w') thisFileMode+= S_IWUSR;
-	if(OurAccessMode[2] == 'x') thisFileMode+= S_IXUSR;
-	if(OurAccessMode[3] == 'r') thisFileMode+= S_IRGRP;
-	if(OurAccessMode[4] == 'w') thisFileMode+= S_IWGRP;
-	if(OurAccessMode[5] == 'x') thisFileMode+= S_IXGRP;
-	if(OurAccessMode[6] == 'r') thisFileMode+= S_IROTH;
-	if(OurAccessMode[7] == 'w') thisFileMode+= S_IWOTH;
-	if(OurAccessMode[8] == 'x') thisFileMode+= S_IXOTH;
+	if(ourAccessMode[0] == 'r') thisFileMode+= S_IRUSR;
+	if(ourAccessMode[1] == 'w') thisFileMode+= S_IWUSR;
+	if(ourAccessMode[2] == 'x') thisFileMode+= S_IXUSR;
+	if(ourAccessMode[3] == 'r') thisFileMode+= S_IRGRP;
+	if(ourAccessMode[4] == 'w') thisFileMode+= S_IWGRP;
+	if(ourAccessMode[5] == 'x') thisFileMode+= S_IXGRP;
+	if(ourAccessMode[6] == 'r') thisFileMode+= S_IROTH;
+	if(ourAccessMode[7] == 'w') thisFileMode+= S_IWOTH;
+	if(ourAccessMode[8] == 'x') thisFileMode+= S_IXOTH;
  
 	// St_mode jest zapisana w systemie osemkowym 
 	// Na poszczegolnych miejscach oktalnych znajduja sie uprawnienia

@@ -1,6 +1,6 @@
 #ifndef COMMON 
 	#define COMMON
-	//#include "common.h"
+	#include "common.h"
 #endif
 
 #include <ftw.h>

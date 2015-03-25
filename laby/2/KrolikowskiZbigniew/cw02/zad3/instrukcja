@@ -1,0 +1,7 @@
+Make posiada jeden domyslny target oraz clean. Dostepne funkcje to:
+setread - ustawiamy rygiel na odczyt
+setwrite - ustawiamy rygiel na zapis
+printl - wypisujemy wszystkie rygle dla danego pliku
+release - zwalniamy rygiel na podanej pozycji
+readc - odczytujemy jeden znak
+writec - zapisujemy jeden znak

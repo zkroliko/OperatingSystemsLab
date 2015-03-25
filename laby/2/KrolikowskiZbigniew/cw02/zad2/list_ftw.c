@@ -57,7 +57,7 @@ int get_statistics(const char* dirPath, const struct stat* st, int flag) {
 		char timeString[90];
 		time = *localtime(&t);
 		// Funkcja od formatowania czasu w poprwawnej formie
-		strftime(timeString, sizeof(timeString), "%a %Y-%m-%d %H:%M:%S %Z", &time);
+		strftime(timeString, sizeof(timeString), "%a %d-%m-%Y %H:%M:%S %Z", &time);
 		// Sprawdzamy czy uprawnienia sa prawidlowe
 		if (check(accessMode, *st)) {
 			printf("%s %d %s\n", dirPath, (int) st->st_size, timeString);

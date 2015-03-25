@@ -7,7 +7,6 @@
 #include <limits.h>
 #include <time.h>
 #include <string.h>
-asdsadasdasds
 
 // Deklaracje tych funkcji, ktore sa doklanie w tej samej postaci w obu wariantach
 

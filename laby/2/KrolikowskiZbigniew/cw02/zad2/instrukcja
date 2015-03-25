@@ -1,0 +1,2 @@
+Make posiada 3 targety oraz clean. Glowny target utworzy obydwie wersje programu: ftw recursive.
+Aby skompilowac tylko jedna wystarczy wpisac odpowiedni target.
