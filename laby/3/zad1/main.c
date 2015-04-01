@@ -34,21 +34,24 @@ int main (int argc, char* argv[]) {
 		return -1;
 	}
 
+	int increment = (high-low)/howMany;
+
+	printf("---------------------------------------Czasy dla fork\n");
 	printf("LIczba,czRMat,czRPot,czUz,czSys,czUzPot,czSysPot\n");
 	for (int i = 0; i <= howMany; ++i) {	
-		test_threads(threads_fork, ((low + (high)/howMany)*i));
+		test_threads(threads_fork, low + increment*i);
 	}
-	printf("----------------------------------------------------------------NEXT\n");
-	for (int i = 0; i < howMany; ++i) {	
-		test_threads(threads_vfork, ((low + (high-low)/howMany)*i));
+	printf("---------------------------------------Czasy dla vfork\n");
+	for (int i = 0; i <= howMany; ++i) {	
+		test_threads(threads_vfork, low + increment*i);
 	}
-	printf("----------------------------------------------------------------NEXT\n");
-	for (int i = 0; i < howMany; ++i) {	
-		test_threads(threads_clone, (low + ((high-low)/howMany)*i));
+	printf("---------------------------------------Czasy dla clone\n");
+	for (int i = 0; i <= howMany; ++i) {	
+		test_threads(threads_clone, low + increment*i);
 	}
-	printf("----------------------------------------------------------------NEXT\n");
-	for (int i = 0; i < howMany; ++i) {	
-		test_threads(threads_vclone, (low + ((high-low)/howMany)*i));
+	printf("---------------------------------------Czasy dla vclone\n");
+	for (int i = 0; i <= howMany; ++i) {	
+		test_threads(threads_vclone, low + increment*i);
 	}
 
 }
