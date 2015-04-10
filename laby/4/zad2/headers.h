@@ -1,13 +1,14 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <limits.h>
-#include <time.h>
-#include <string.h>
+#define _GNU_SOURCE 
 #include <sys/wait.h>
 #include <unistd.h>
-
-int count(char* filePath, short flag);
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <sys/times.h>
+#include <sys/time.h>
+#include <sys/resource.h> 
+#include <sched.h>
+#include <unistd.h>
+#include <signal.h>
+#include <errno.h>
 
