@@ -10,7 +10,7 @@ int PID;
 int received_conf = 0;
 
 void r_conf () {
-	printf("Dostalem potwierdzenie, wysylam nastepny!\n");
+	printf("Dostalem potwierdzenie!\n");
 	received_conf = 1;
 }
 
@@ -60,6 +60,7 @@ int main (int argc, char* argv[]) {
 
 	if((PID = fork()) < 0) {		
 		fprintf(stderr, "Blad funkcji fork!\n");	
+		exit(-1);
 	} else if (PID == 0) {
 		// Potomek
 		execl("./child", "child", NULL);

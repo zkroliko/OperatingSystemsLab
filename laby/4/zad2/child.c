@@ -12,7 +12,7 @@ int usr2Rec = 0;
 int received_conf = 0;
 
 void r_conf () {
-	printf("Child tutaj! Dostalem potwierdzenie, wysylam nastepny!\n");
+	printf("Child tutaj! Dostalem potwierdzenie!\n");
 	received_conf = 1;
 }
 

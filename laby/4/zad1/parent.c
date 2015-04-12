@@ -24,11 +24,18 @@ int main (int argc, char* argv[]) {
 	sigprocmask(SIG_BLOCK, &set, NULL);	
 
 	// Ustawienie obslugi sygnalow
-	if (signal(SIGUSR1, r_usr1) == SIG_ERR) {
+
+	struct sigaction usr1Action, usr2Action;
+	usr1Action.sa_handler = r_usr1;
+	usr1Action.sa_mask = set;
+	usr2Action.sa_handler = r_usr2;
+	usr2Action.sa_mask = set;
+	
+	if (sigaction(SIGUSR1, &usr1Action, NULL) < 0) {
 		fprintf(stderr, "Blad przy ustawianiu procedury obslugi sygnalu!\n");
 		exit(-1);			
 	}
-	if (signal(SIGUSR2, r_usr2) == SIG_ERR) {
+	if (sigaction(SIGUSR2, &usr2Action, NULL) < 0 ) {
 		fprintf(stderr, "Blad przy ustawianiu procedury obslugi sygnalu!\n");	
 		exit(-1);		
 	}
@@ -48,6 +55,7 @@ int main (int argc, char* argv[]) {
 	int PID;
 	if((PID = fork()) < 0) {		
 		fprintf(stderr, "Blad funkcji fork!\n");	
+		exit(-1);
 	} else if (PID == 0) {
 		// Potomek
 		execl("./child", "child", NULL);
@@ -59,14 +67,14 @@ int main (int argc, char* argv[]) {
 		}
 
 	}
-	// Teraz ostatni
-	if (kill(PID, SIGUSR2) < 0) {
+	// Teraz ostatni			
+	if (kill(PID, SIGUSR2) < 0) {		
 		fprintf(stderr, "Blad przy wyslaniu syngalu SIGUSR2!\n");
 
 	}
 	// Teraz bedziemy odbierac
 
-	// Odblokujmy usr1 i usr2
+	// Odblokujmy wszystkie sygnaly
 	sigemptyset (&set);
 
 	// Czekania na sygnaly

@@ -1,5 +1,6 @@
-Make ma dwa targety:
-main - domyslny, tak jak w tresci zadania, podajemy: <lewy brzeg przedzialu> <prawy brzeg przedzialu> <ile testow w przedziale>
-csv - wypisuje w postaci pliku csv, podajemy: <lewy brzeg przedzialu> <prawy brzeg przedzialu> <ile testow w przedziale>
+Make ma trzt targety:
+main - tworzy program parent oraz child, rekomendowany do uzycia
+parent - rodzic 
+child - dziecko
 
 Oraz naturalnie clean

@@ -16,25 +16,36 @@ void r_usr2 () {
 }
 
 int main () {	
-	time_t first;
-	first = clock();	
+
+	// Maska sygnalow
+	sigset_t set;
+	sigemptyset (&set);
+	sigaddset(&set, SIGUSR1);
+	sigaddset(&set, SIGUSR2);
+
 	// Ustawienie obslugi sygnalow
-	if (signal(SIGUSR1, r_usr1) == SIG_ERR) {
-		fprintf(stderr, "Blad przy ustawianiu procedury obslugi sygnalu!\n");	
-		exit(-1);	
+
+	struct sigaction usr1Action, usr2Action;
+	usr1Action.sa_handler = r_usr1;
+	usr1Action.sa_mask = set;
+	usr2Action.sa_handler = r_usr2;
+	usr2Action.sa_mask = set;
+	
+	if (sigaction(SIGUSR1, &usr1Action, NULL) < 0) {
+		fprintf(stderr, "Blad przy ustawianiu procedury obslugi sygnalu!\n");
+		exit(-1);			
 	}
-	if (signal(SIGUSR2, r_usr2) == SIG_ERR) {
+	if (sigaction(SIGUSR2, &usr2Action, NULL) < 0 ) {
 		fprintf(stderr, "Blad przy ustawianiu procedury obslugi sygnalu!\n");	
 		exit(-1);		
 	}
 
-	// Najpierw odblokujmy usr1 i usr2
-	sigset_t set;
+	// Odblokowanie	
+
 	sigemptyset (&set);
 
 	// Czekania na sygnaly
 	while (usr2Rec != 1 ) {
-		printf("%f\n", (double)(clock()-first)/CLOCKS_PER_SEC);
 		sigsuspend(&set);
 	}
 

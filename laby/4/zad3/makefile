@@ -2,11 +2,14 @@ cc = gcc
 cxx = g++
 cflags = -std=gnu99 -pedantic -Wall -g
 lflags = -Wall 
-objs = main.o functions.o
-file_counter: main.o functions.o	
+objs =
+main: parent child
+	
+parent: parent.o
+	$(cc) $(cflags) -o $@ $^
+child: child.o
 	$(cc) $(cflags) -o $@ $^
 %.o: %.c 
-	$(cc) $(cflags) -c -pedantic $<	
+	$(cc) $(cflags) -c $<	
 clean:
-	rm -f *.o *.a $(objs) file_counter
-
+	rm -f *.o *.a $(objs) child parent
