@@ -3,6 +3,8 @@
 #include "headers.h"
 #endif
 
+#define MAXLENGHT 300
+
 // Zmienne globalne
 char * path;
 int fd;
@@ -30,6 +32,17 @@ int main (int argc, char* argv[]) {
 		fprintf(stderr, "Blad przy ustawianiu procedury obslugi sygnalu!\n");
 		exit(-1);			
 	}
+
+	// Alokujemy pamiec
+
+        char *line;
+
+	if ((line = malloc(sizeof(char)*300)) == NULL) {
+		fprintf(stderr, "Blad przy alokacji pamieci!\n");
+		return -1;
+	}
+
+	// Otwieramy potok
 	
     	if ((fd = open( path , O_WRONLY)) == -1) {
 		fprintf(stderr, "Blad przy otwieraniu kolejki fifo!\n");
@@ -38,12 +51,6 @@ int main (int argc, char* argv[]) {
 
 	printf("Strumien otwarty. Prosze podawac do wpisania. Aby zakonczyc prosze wcisnac kombinacje CTRL-C\n");
 
-        char *line;
-
-	if ((line = malloc(sizeof(char)*300)) == NULL) {
-		fprintf(stderr, "Blad przy alokacji pamieci!\n");
-		return -1;
-	}
 
         size_t len = 0;
         ssize_t read;
@@ -57,6 +64,9 @@ int main (int argc, char* argv[]) {
 	int pid;
 
         while (1) {
+		// Znak zachety
+		fprintf(stderr, "> ");
+
 		// Czyscimy zmienna line
 		line[0] = '\0';
 		// Godzina wyslania
@@ -79,9 +89,10 @@ int main (int argc, char* argv[]) {
 		}
 		strcat(line, buffer);
 
-		// Wiadomosc
-	    	write(fd, line, sizeof(*line)-1); 
-		fprintf(stderr, "%s\n", line);
+		// Wysylanie pelnej wiadomosci
+	    	write(fd, line, MAXLENGHT); 
+
+		fprintf(stderr, "%s", line);
         }
 
 	return 0;

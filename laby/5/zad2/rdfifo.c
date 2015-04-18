@@ -11,6 +11,7 @@ char * myfifo = "/tmp/myfifo";
 
 void handler () {
 	close(fd);
+	unlink(myfifo);	
 	exit(0);
 }
 
@@ -36,11 +37,7 @@ int main (int argc, char* argv[]) {
 		}	
 	}
 
-
-    	if ((fd = open(myfifo, O_RDONLY)) == -1) {
-		fprintf(stderr, "Blad przy otwieraniu kolejki fifo!\n");
-		return -1;
-	}
+	// Alokacja pamieci
 
 	char * line, *buffer;
 	if ((line = malloc(sizeof(char)*MAXLENGHT)) == NULL) {
@@ -60,23 +57,47 @@ int main (int argc, char* argv[]) {
 		exit(-1);			
 	}
 
-	printf("Potok otwarty. Serwer nasluchuje kolejki %s\n", myfifo);
+	// Otwieranie
+
+	printf("Serwer bedzie nasluchiwal kolejki %s\n", myfifo);
+
+    	if ((fd = open(myfifo, O_RDONLY)) == -1) {
+		fprintf(stderr, "Blad przy otwieraniu kolejki fifo!\n");
+		return -1;
+	}
+
+	printf("Potok otwarty.\n");
 	fflush(stdout);
+
+	// Odczyt
 
 	int readRet;
 	while( access( myfifo, F_OK ) != -1 ) {			
-		memset(line,0,strlen(line));	
-		if ((readRet = (read(fd, line, MAXLENGHT - 1))) == -1) {
+		memset(line,0,MAXLENGHT);	
+		if ((readRet = (read(fd, line, MAXLENGHT))) == -1) {
 			fprintf(stderr, "Blad przy odczycie ze strumienia!\n");
 			return -1;
 		}
-		// Godzina odczytu
-		time_t current_time;
-		current_time = time(NULL);	
-   		buffer = ctime(&current_time);
-		printf("Godzina odczytu: %s", buffer);	
-		// Wypisanie komunikatu	
-		printf("Wiadomosc: %s\n", line);
+		if (strlen(line) == 0 ){		
+			printf("Zaden proces nie wpisuje do kolejki. Czekam...\n");	
+			fflush(stdin);
+			// Ponowne otwarcie bedzie dzialac jak czekanie, w tym trybie (blokujacym)
+    			if ((fd = open(myfifo, O_RDONLY)) == -1) {
+				fprintf(stderr, "Blad przy otwieraniu kolejki fifo!\n");
+				return -1;
+			}
+			printf("Proces zapisuj do kolejki. Wznawiam prace...\n");	
+			fflush(stdin);
+		} else {
+			// Godzina odczytu
+			time_t current_time;
+			current_time = time(NULL);	
+	   		buffer = ctime(&current_time);
+			buffer[strlen(buffer)-1]='\0'; // Obcinamy \n
+
+			// Wypisanie komunikatu			
+			printf(" %s - %s", buffer , line);
+		}
 	}	
 
 
