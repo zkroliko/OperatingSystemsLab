@@ -65,7 +65,7 @@ int main (int argc, char* argv[]) {
 
 	int readRet;
 	while( access( myfifo, F_OK ) != -1 ) {		
-		if ((readRet = (read(fd, buffer, MAXLENGHT))) == -1) {
+		if ((readRet = (read(fd, line, MAXLENGHT))) == -1) {
 			fprintf(stderr, "Blad przy odczycie ze strumienia!\n");
 			return -1;
 		}
