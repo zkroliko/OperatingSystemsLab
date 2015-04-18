@@ -7,7 +7,7 @@
 
 // Zmienne globalne
 int fd;
-char * myfifo = "/tmp/myfifo";
+char * myfifo;
 
 void handler () {
 	close(fd);
@@ -16,6 +16,17 @@ void handler () {
 }
 
 int main (int argc, char* argv[]) {
+
+	// Sprawdzamy argumenty
+
+	if (argc != 2) {
+		fprintf(stderr, "Nie podano argumentu. Ustalony zostanie argument domyslny tmp/myfifo!\n");
+		myfifo = "/tmp/myfifo";
+	} else {
+		myfifo = argv[1];
+	}
+
+	// Ustawiam zmienna globalna
 
 	if (mkfifo(myfifo, 0666) == -1) {
 		if (errno == EEXIST) {
