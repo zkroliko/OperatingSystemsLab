@@ -68,7 +68,15 @@ int main (int argc, char* argv[]) {
 		fprintf(stderr, "> ");
 
 		// Czyscimy zmienna line
-		line[0] = '\0';
+		line[0] = '\0';	
+
+		// PID		
+		pid = getpid();
+		sprintf(buffer, "%d", pid);
+		strcat(line, buffer);
+		line[strlen(line)]='\0'; // Obcinamy \n	
+		strcat(line," - ");
+
 		// Godzina wyslania
 		time_t current_time;
 		current_time = time(NULL);	
@@ -77,12 +85,6 @@ int main (int argc, char* argv[]) {
 		line[strlen(line)-1]='\0'; // Obcinamy \n
 		strcat(line," - ");
 
-		// PID		
-		pid = getpid();
-		sprintf(buffer, "%d", pid);
-		strcat(line, buffer);
-		line[strlen(line)]='\0'; // Obcinamy \n	
-		strcat(line," - ");
 
 		if (((read = getline(&(buffer), &len, stdin)) == -1)) {			
 			fprintf(stderr, "Blad przy pobieraniu komunikatu!\n");
@@ -92,7 +94,7 @@ int main (int argc, char* argv[]) {
 		// Wysylanie pelnej wiadomosci
 	    	write(fd, line, MAXLENGHT); 
 
-		fprintf(stderr, "%s", line);
+		fprintf(stderr, "Wysylany komunikat: %s", line);
         }
 
 	return 0;
