@@ -3,7 +3,7 @@
 #include "headers.h"
 #endif
 
-#define MAXLENGHT 3
+#define MAXLENGHT 300
 
 // Zmienne globalne
 int fd;
@@ -64,8 +64,9 @@ int main (int argc, char* argv[]) {
 	fflush(stdout);
 
 	int readRet;
-	while( access( myfifo, F_OK ) != -1 ) {		
-		if ((readRet = (read(fd, line, MAXLENGHT))) == -1) {
+	while( access( myfifo, F_OK ) != -1 ) {			
+		memset(line,0,strlen(line));	
+		if ((readRet = (read(fd, line, MAXLENGHT - 1))) == -1) {
 			fprintf(stderr, "Blad przy odczycie ze strumienia!\n");
 			return -1;
 		}
