@@ -3,13 +3,13 @@ cxx = g++
 cflags = -std=gnu99 -pedantic -Wall -g
 lflags = -Wall 
 objs =
-main: wrfifo rdfifo 
+main: client server
 	
-wrfifo: wrfifo.o 
-	$(cc) $(cflags) -o $@ $^
-rdfifo: rdfifo.o 
-	$(cc) $(cflags) -o $@ $^
+server: server.o 
+	$(cc) $(cflags) -o $@ $^ -lrt
+client: client.o 
+	$(cc) $(cflags) -o $@ $^ -lrt
 %.o: %.c 
-	$(cc) $(cflags) -c $<	
+	$(cc) $(cflags) -c $<
 clean:
-	rm -f *.o *.a $(objs) wrfifo rdfifo
+	rm -f *.o *.a $(objs) client server

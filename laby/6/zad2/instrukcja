@@ -1,6 +1,3 @@
-Make ma trzy targety:
-main - tworzy obydwa programy
-wrfifo - klient
-rdfifo - serwer
+Make ma target main, ktory uruchamia targety client i serwer.
 
 Oraz naturalnie clean
