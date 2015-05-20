@@ -1,0 +1,48 @@
+Wyniki testow wykonanych w ramach zadania drugiego
+
+a)
+1. wyslanie sygnalu do procesu, gdy zaden watek nie ma zamaskowanego tego sygnalu
+
+SIGUSR1 : Wszystkie watki koncza, wypisywany jest komunikat "User defined signal 1"
+	
+SIGTERM : Wszystkie watki koncza, wypisywany jest komunikat "Received SIGHUP or SIGTERM".
+
+SIGKILL : Wszystkie watki koncza, wypisywany jest komunikat "Killed"
+
+SIGSTOP : Wszystkie watki sa zatrzymane, wypisywany jest komunikat "[1]+  Stopped"
+
+2. wyslanie sygnalu do procesu, gdy glowny watek programu ma zamaskowany ten sygnal, a wszystkie pozostale watki nie,
+
+SIGUSR1 : Wszystkie watki koncza, wypisywany jest komunikat "User defined signal 1"
+
+SIGTERM : Wszystkie watki koncza, wypisywany jest komunikat "Received SIGHUP or SIGTERM".
+
+SIGKILL : Wszystkie watki koncza, wypisywany jest komunikat "Killed"
+
+SIGSTOP : Wszystkie watki zatrzymane, wypisywany jest komunikat "[1]+  Stopped"
+
+3. wyslanie sygnalu do procesu, gdy wszystkie watki maja zainstalowana niestandardowa procedure obslugi przerwania, ktora wypisuje informacje o nadejsciu tego sygnalu oraz PID i TID danego watku
+
+SIGUSR1, SIGTERM : Dla szybkiego wysylania sygnalow odpowiada jeden watek. Gdy procedura obslugi sygnalu jest dluzsza, to odpowiadaja poszczegolne watki.	
+SIGKILL,SIGSTOP : Rezultat jest analogiczny do sytuacji bez zamontowanej obslugi.
+
+4. wyslanie sygnalu do watku z zamaskowanym tym sygnalem
+
+SIGUSR1,SIGTERM : Nic sie nie dzieje.
+
+SIGKILL : Nie da sie zamaskowac. Efekt normalny.
+
+SIGSTOP : Wyswietla sie "[1]+  Stopped". Normalny rezultat
+
+5. wyslanie sygnalu do watku, w ktorym zmieniona jest procedura obslugi sygnalu, jak przedstawiono w punkcie 3
+
+SIGUSR1, SIGTERM : Wybrany watek wypisuje stosowne informacje.
+
+SIGKILL, SIGSTOP : Rezultat normalny. Nie da sie zmienic obslugi tych sygnalow.
+
+b) 
+1. Dzielenie przez zero
+
+	Gdy w jednym z watkow zostanie wykonane dzielenie przez zero, wypisane zostanie na konsole: "Floating point calculation error (core dumped)", a nastepnie wszystkie watki zostana zamkniete.
+
+	

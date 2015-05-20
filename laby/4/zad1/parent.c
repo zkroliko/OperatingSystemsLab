@@ -67,6 +67,10 @@ int main (int argc, char* argv[]) {
 		// Potomek
 		execl("./child", "child", NULL);
 	}
+
+	// Odblokujmy wszystkie sygnaly
+	sigemptyset (&set);
+
 	// Rodzic teraz bedzie wysylal sygnaly
 	for (int i = 0; i < atoi(argv[1]); ++i) {
 		if (kill(PID, SIGUSR1) < 0) {
@@ -74,9 +78,6 @@ int main (int argc, char* argv[]) {
 		}
 
 	}
-
-	// Odblokujmy wszystkie sygnaly
-	sigemptyset (&set);
 
 	// Teraz usr 2	
 	if (kill(PID, SIGUSR2) < 0) {		
