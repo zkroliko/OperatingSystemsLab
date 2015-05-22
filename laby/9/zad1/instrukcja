@@ -1,0 +1,7 @@
+Aby skorzystac z programu nalezy:
+
+1. Skomplikowac za pomoca programu make
+2. Wygenerowac rekordy poleceniem generator <liczba> <rozmiar>
+3. Uzyc jednego z 3 programow.
+
+Wielkosc rekordu w programie wyszukujacym jest hardkodowana przy pomocy stalej RECORDSIZE, znajdujacego sie w headers.h, na rekord wielkosci 1024.
