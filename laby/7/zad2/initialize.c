@@ -5,6 +5,19 @@
 
 int main() {
 
+	// Sprawdzamy ilosc argumentow
+	if (argc > 2) 	{
+		printf("Podano za duzo argumentow. Prosze uruchomic program w formacie  main [-ilosc pisarzy]\n");
+		exit(-1);
+	} else {
+		if (argc != 2) {
+			printf("Podano za duzo argumentow. Prosze uruchomic program w formacie  main [-ilosc pisarzy]\n");
+			exit(-1);
+		}
+	}
+
+
+
 	// Tworzymy semafory
 	sem_t* empty, *full, *take, *put;
 

@@ -1,0 +1,3 @@
+Program posiada dwa targety: main oraz clean.
+
+Domyslnie program jest spowolniony poprzez usleep, aby dalo sie dostrzec jego prace. Aby usunac ta niedogodnosc nalezy zmodyfikowac stala SLEEP_TIME.

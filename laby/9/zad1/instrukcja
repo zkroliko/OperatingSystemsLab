@@ -1,7 +1,9 @@
-Aby skorzystac z programu nalezy:
+Program posiada dwa targety: main oraz clean.
 
-1. Skomplikowac za pomoca programu make
-2. Wygenerowac rekordy poleceniem generator <liczba> <rozmiar>
-3. Uzyc jednego z 3 programow.
+Program jest skonfigurowan dla odpowiednich dlugosci czasow myslenia i jedzenia. Mozna modyfikowac stale:
 
-Wielkosc rekordu w programie wyszukujacym jest hardkodowana przy pomocy stalej RECORDSIZE, znajdujacego sie w headers.h, na rekord wielkosci 1024.
+N_EAT_TIMES
+US_EAT_TIME
+US_EAT_TIME_VAR
+US_THINK_TIME
+US_THINK_TIME_VAR

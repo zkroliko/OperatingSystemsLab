@@ -141,9 +141,6 @@ void* philosopher (void* data) {
 
 		monitor->fTaken[left] = 0;
 		pthread_cond_signal(&(monitor->forks[left]));
-						
-		pthread_mutex_unlock(mutex);
-
 		/* right widelec */
 
 		printf("\tFilozof %d odklada prawy widelec.\n",((data_t*)data)->philo);	
@@ -179,7 +176,7 @@ void think() {
 	usleep((US_THINK_TIME + rand()%US_THINK_TIME_VAR)*1000);
 }
 
-// Funkcja sluzaca do alokacji monitora
+// Funkcja sluzaca do alokacji danych watku
 data_t* init_data (myMonitor* monitor) {
 
 	data_t* data = malloc (sizeof(data_t));
