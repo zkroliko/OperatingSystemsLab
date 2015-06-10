@@ -1,0 +1,9 @@
+Program posiada dwa targety: main oraz clean.
+
+Program jest skonfigurowan dla odpowiednich dlugosci czasow myslenia i jedzenia. Mozna modyfikowac stale:
+
+N_EAT_TIMES
+US_EAT_TIME
+US_EAT_TIME_VAR
+US_THINK_TIME
+US_THINK_TIME_VAR
